@@ -28,7 +28,7 @@ jobs:
           java-version: "21"
           cache: maven
       - name: Verify Java application
-        run: ./mvnw --batch-mode --no-transfer-progress clean verify
+        run: sh ./mvnw --batch-mode --no-transfer-progress clean verify
       - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: 1.15.8
