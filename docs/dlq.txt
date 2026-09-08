@@ -1,0 +1,16 @@
+Attempt 1: Lambda rejects message
+           ↓
+Message becomes visible again (because we haven't deleted the message from the SQS)
+
+if the lambda processes it successfully then that message is removed from the
+
+Attempt 2: Lambda rejects message
+           ↓
+SQS moves message to order-events-dlq
+
+A DLQ does not automatically fix a message. Normally, an operator would:
+1. inspect the message and failure logs;
+2. fix the producer or consumer;
+3. correct the message if appropriate;
+4. redrive it from the DLQ to the original queue.
+

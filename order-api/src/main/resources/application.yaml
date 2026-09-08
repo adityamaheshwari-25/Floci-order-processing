@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: order-api
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+orders:
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    table-name: ${ORDERS_TABLE:orders}
+    queue-url: ${ORDERS_QUEUE_URL:}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+orders:
+  aws:
+    endpoint: ${AWS_ENDPOINT_URL:http://localhost:4566}
+    access-key: ${AWS_ACCESS_KEY_ID:test}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:test}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+orders:
+  aws:
+    endpoint: null
+    access-key: null
+    secret-key: null

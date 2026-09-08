@@ -1,0 +1,14 @@
+target/
+.m2/
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.env
+dependency-reduced-pom.xml
