@@ -157,6 +157,12 @@ If the active Podman connection is rootful, set
 `PODMAN_SOCKET_PATH=/run/podman/podman.sock` before `start-floci.sh`. Rootless
 Podman uses `/run/user/$(id -u)/podman/podman.sock` by default.
 
+On Windows Git Bash, the start/stop scripts use Podman directly. This avoids
+the external Docker Compose provider failing with `EOF` while connecting to
+the Podman Windows named pipe. The startup script disables Git Bash path
+conversion for the container socket mount and uses the same pinned Floci image,
+network, and Lambda settings as `compose.yaml`. Other platforms use Compose.
+
 Package the Lambda before applying Terraform:
 
 ```bash
@@ -189,6 +195,18 @@ aws --endpoint-url http://localhost:4566 lambda list-functions
 ```
 
 ## Run the API
+
+After building and provisioning, the simplest option is to open a separate Bash
+terminal at the repository root and run:
+
+```bash
+bash scripts/start-api.sh
+```
+
+This sets fake credentials, reads the Terraform queue/table outputs, prepares
+the Java socket directory, and starts the API with the `local` profile. Leave
+it running while executing the demo in another terminal. Stop with Ctrl+C.
+The equivalent manual commands follow.
 
 After the full build and Terraform apply, run the packaged API from the
 repository root. Set the queue URL from Terraform's output in the same terminal
